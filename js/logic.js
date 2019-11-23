@@ -70,6 +70,7 @@ function template (giphy){
       <div class="card-body text-center">
         <p class="card-text">${giphy.title}</p>
         <a href="${giphy.embed_url}">${giphy.embed_url}</a>
+        <img src="${giphy.images.original.url}" alt="">
       </div>
    `
 }
