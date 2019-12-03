@@ -1,3 +1,4 @@
+
 statusClick = true;
 count = 0;
 function get (search, offset){
