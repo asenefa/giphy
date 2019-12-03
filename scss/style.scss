@@ -1,0 +1,63 @@
+$font-family: 'Poppins', sans-serif;
+
+*{
+    margin: 0px;
+    padding: 0px;
+    background-color: rgb(20, 19, 19);
+}
+
+ul, li, a {
+    font-family: $font-family;
+    display: block;
+    color: white;
+}
+.menu__item {
+    // background-color: red;
+    margin:  5px 10px 15px;
+    padding: 5px 15px 0;
+}
+
+.menu__item:not(:first-child):hover {
+    text-decoration: none;
+    color: black;
+    background-color: white;
+}
+a:hover{
+    text-decoration: none;
+    color: white;
+}
+
+
+// // header
+
+.header{
+    padding: 20px 0 ;
+}
+
+.giphy{
+    font-size: 30px;
+    margin: 0;
+}
+
+hr{
+    background: white;
+    margin: 0 -15px;
+    height: 3px;
+}
+
+
+
+.more-btn-hidden {
+    visibility: hidden;
+    // width: 200px;
+}
+
+.title{
+    text-align: center;
+    color: white;
+    padding: 10px 0;
+}
+
+.gif__img{
+    padding: 10px;
+}

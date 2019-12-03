@@ -1,5 +1,5 @@
 statusClick = true;
-
+count = 0;
 function get (search, offset){
     return new Promise(function(resolve, reject){
         let xhr = new XMLHttpRequest();
@@ -14,70 +14,81 @@ function get (search, offset){
     });
 
 };
+searhGiphy ('trending');
 
-// get('quiz')
-//     .then(function(text) {
-//         console.log(JSON.parse(text));
-// });
 
-$('<div ></div>').attr('class', 'card-columns').appendTo('.container');
-
-$('#search').click(function(){
-    let gifSearch =  $('#searchVal').val();
+// createBtn(); // more-btn
+$('#search__btn').click(function(){
+    let gifSearch =  $('#request').val();
     console.log(gifSearch);
 
-    get(gifSearch, 0 )
-        .then(function(respone) {
-            giphyObj = JSON.parse(respone);
-            console.log(giphyObj);
-            giphyObj.data.forEach(element => {
-                console.log(element.title, element.embed_url);
-                $('.card-columns ').append(template(element));
-            });
-           
-        })
-        .then(function(){
-             
-            if(statusClick === true){
-                createBtn();
-                statusClick = !statusClick;
-            }
-            $('#more').click(function(){
-                get(gifSearch, 10 )
-                .then(function(respone) {
-                    giphyObj = JSON.parse(respone);
-                    console.log(giphyObj);
-                    giphyObj.data.forEach(element => {
-                        console.log(element.title, element.embed_url);
-                        $('.card-columns ').append(template(element));
-                    });
-                   
-                })
-
-                
-            })
-            
-        })
+    searhGiphy (gifSearch);
 
 });
 
+$('#request').keypress(function(e){
+    if (e.which==13){
+        $('#search__btn').click();
+
+    }
+})
+    
+
+function searhMenu (id) {
+    $(id).click(function(){
+
+        searhGiphy ($(id).text());    
+    
+    });
+}
+
+searhMenu ('#reactions');
+searhMenu ('#entertainment');
+searhMenu ('#sports');
+searhMenu ('#animals');
+searhMenu ('#psychedelic');
 
 
+
+function searhGiphy (request){
+    get(request, count )
+    .then(function(respone) {
+        $('.gif').empty();
+        $('.title').remove();
+        giphyObj = JSON.parse(respone);
+        $('.gif').before($(`<h1>${request} GIFs</h1>`).addClass('title'));    
+        render(giphyObj);
+        $(".more-btn-hidden").css("visibility", "visible")
+    })
+    .then(function(){
+        console.log("WORKS");
+        $('#more').click(function(){
+            console.log("CLICKED");
+            get(request, count )
+            .then(function(respone) {
+                giphyObj = JSON.parse(respone);
+                render(giphyObj);
+            })
+        })
+        
+    })
+}
+
+
+function render(obj){
+    obj.data.forEach(element => {
+        count++;
+        console.log(element.title, element.embed_url);
+        $('.gif ').append(template(element));
+    });
+
+}
 
 
 function template (giphy){
-    return `<div class="card bg-light">
-      <div class="card-body text-center">
-        <p class="card-text">${giphy.title}</p>
-        <a href="${giphy.embed_url}">${giphy.embed_url}</a>
-      </div>
+    return `
+      <div class="col-lg-4">
+      <img class="gif__img" src="${giphy.images.fixed_height_downsampled.url}" alt="">
+  </div>
    `
-}
-
-function createBtn(){
-    $('<button>More</button>').attr({
-        'type':'button',
-        'class':'btn btn-dark ',
-        'id': 'more'
-    }).appendTo('.container');
 }
